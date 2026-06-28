@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nivaro — Property Verification & Property Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0F2747;
+    --navy-light: #1A365D;
+    --navy-muted: #2C4A75;
+    --white: #FFFFFF;
+    --off-white: #F8F9FA;
+    --gray-100: #E2E8F0;
+    --gray-200: #CBD5E1;
+    --gray-600: #475569;
+    --accent-gold: #C5A880;
+    --accent-gold-dim: #F4EFE6;
+    --danger: #991B1B;
+    --danger-dim: #FEE2E2;
+    --success: #166534;
+    --success-dim: #DCFCE7;
+    --font-serif: 'Fraunces', serif;
+    --font-sans: 'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--white);
+    color: var(--navy);
+    line-height: 1.6;
+  }
+
+  /* Navigation System */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(255, 255, 255, 0.98);
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .nav-container {
+    max-width: 1280px; margin: 0 auto; padding: 0 32px;
+    display: flex; align-items: center; justify-content: space-between; height: 80px;
+  }
+  .brand-logo {
+    font-family: var(--font-serif); font-size: 26px; font-weight: 600;
+    color: var(--navy); text-decoration: none; letter-spacing: -0.5px;
+    display: flex; align-items: center; gap: 8px; cursor: pointer;
+  }
+  .brand-logo span { color: var(--accent-gold); }
+  .nav-menu { display: flex; gap: 40px; list-style: none; }
+  .nav-link {
+    font-size: 14px; font-weight: 500; color: var(--gray-600);
+    text-decoration: none; cursor: pointer; transition: color 0.2s;
+  }
+  .nav-link:hover { color: var(--navy); }
+
+  /* Section Structural Layout Rules */
+  .section { padding: 120px 0; border-bottom: 1px solid var(--gray-100); }
+  .section-alt { padding: 120px 0; background: var(--off-white); border-bottom: 1px solid var(--gray-100); }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+  
+  .section-header { max-width: 720px; margin-bottom: 64px; }
+  .section-header.center { margin-left: auto; margin-right: auto; text-align: center; }
+  .section-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--accent-gold); margin-bottom: 12px;
+    display: block;
+  }
+  .section-heading {
+    font-family: var(--font-serif); font-size: 42px; font-weight: 500;
+    line-height: 1.2; color: var(--navy); letter-spacing: -0.5px;
+  }
+  .section-subheading {
+    font-size: 17px; color: var(--gray-600); margin-top: 16px; line-height: 1.6;
+  }
+
+  /* Button Layout Components */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 16px 36px; font-size: 14px; font-weight: 500;
+    border-radius: 0; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none; font-family: var(--font-sans); border: none; letter-spacing: 0.2px;
+  }
+  .btn-primary { background: var(--navy); color: var(--white); }
+  .btn-primary:hover { background: var(--navy-light); }
+  .btn-secondary { background: transparent; color: var(--navy); border: 1px solid var(--navy); }
+  .btn-secondary:hover { background: var(--off-white); }
+  .btn-gold { background: var(--accent-gold); color: var(--white); }
+  .btn-gold:hover { background: #b5966d; }
+  .btn-full { width: 100%; }
+
+  /* REDESIGNED HERO: CENTERED TRUST NODE */
+  .hero-canvas {
+    position: relative; background: var(--off-white); min-height: 92vh;
+    display: flex; align-items: center; justify-content: center;
+    padding-top: 100px; padding-bottom: 80px; overflow: hidden;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  
+  /* Automated Intelligence Background Feed Layout */
+  .intelligence-feed-container {
+    position: absolute; inset: 0; display: flex; justify-content: space-between;
+    padding: 48px 40px; pointer-events: none; z-index: 1; opacity: 0.28;
+  }
+  .feed-column {
+    display: flex; flex-direction: column; justify-content: center; gap: 20px; width: 260px;
+  }
+  .feed-card-item {
+    background: var(--white); border: 1px solid var(--gray-100); padding: 20px;
+    opacity: 0; transform: translateY(8px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    pointer-events: auto;
+  }
+  .feed-card-item.active-item { opacity: 1; transform: translateY(0); }
+  .intelligence-feed-container:hover { opacity: 0.45; }
+  .feed-card-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.2px; color: var(--accent-gold); margin-bottom: 6px; display: block;
+  }
+  .feed-card-title { font-family: var(--font-serif); font-size: 14px; font-weight: 600; margin-bottom: 4px; color: var(--navy); }
+  .feed-card-body { font-size: 11px; color: var(--gray-600); line-height: 1.5; }
+
+  /* Hero Typography Layout blocks */
+  .hero-center-column {
+    max-width: 820px; text-align: center; position: relative; z-index: 10; padding: 0 24px;
+  }
+  .hero-headline-large {
+    font-family: var(--font-serif); font-size: 64px; font-weight: 500;
+    line-height: 1.12; color: var(--navy); letter-spacing: -2px; margin-bottom: 24px;
+  }
+  .hero-support-text {
+    font-size: 19px; color: var(--gray-600); line-height: 1.6; max-width: 680px; margin: 0 auto 40px;
+  }
+  .hero-action-row { display: flex; gap: 16px; justify-content: center; margin-bottom: 48px; }
+  
+  .hero-badge-array {
+    display: flex; flex-wrap: wrap; gap: 24px; justify-content: center;
+    padding-top: 24px; border-top: 1px solid var(--gray-200); max-width: 640px; margin: 0 auto;
+  }
+  .badge-item-inline {
+    font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--navy);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .badge-item-inline span { color: var(--accent-gold); }
+
+  /* COHORT BLOCK: USER BASE SEGMENTATION */
+  .cohort-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .cohort-card { background: var(--white); border: 1px solid var(--gray-100); padding: 40px; }
+  .cohort-num { font-family: var(--font-serif); font-size: 16px; color: var(--accent-gold); margin-bottom: 16px; font-weight: 600; }
+  .cohort-title { font-family: var(--font-serif); font-size: 24px; font-weight: 500; margin-bottom: 16px; color: var(--navy); }
+  .cohort-desc { font-size: 14px; color: var(--gray-600); line-height: 1.6; }
+
+  /* RISK GRID: WHAT BUYERS DON'T SEE */
+  .problem-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .problem-card { background: var(--white); border: 1px solid var(--gray-100); padding: 40px; }
+  .problem-marker-text { color: var(--danger); font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; display: block; }
+  .problem-title { font-family: var(--font-serif); font-size: 24px; font-weight: 500; margin-bottom: 12px; }
+  .problem-desc { font-size: 15px; color: var(--gray-600); line-height: 1.6; }
+
+  /* TIMELINE BLOCK: LOGICAL PROTOCOL SEQUENCE */
+  .process-timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; position: relative; margin-top: 48px; }
+  .process-step { position: relative; }
+  .process-step::before {
+    content: ''; position: absolute; top: 16px; left: 32px; right: -32px;
+    height: 1px; background: var(--gray-200); z-index: 1;
+  }
+  .process-step:last-child::before { display: none; }
+  .process-node {
+    width: 32px; height: 32px; border: 2px solid var(--navy); background: var(--off-white);
+    display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
+    position: relative; z-index: 2; margin-bottom: 24px;
+  }
+  .process-title { font-family: var(--font-serif); font-size: 20px; font-weight: 500; margin-bottom: 12px; }
+  .process-desc { font-size: 14px; color: var(--gray-600); line-height: 1.5; }
+
+  /* PLATFORM MARKETPLACE DISCOVERY BLOCKS */
+  .discovery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .discovery-card {
+    background: var(--white); border: 1px solid var(--gray-100); padding: 48px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .discovery-card:hover { border-color: var(--navy); }
+  .discovery-badge {
+    align-self: flex-start; padding: 6px 12px; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px; border: 1px solid var(--gray-200); margin-bottom: 24px;
+  }
+  .discovery-badge.verified-tag { background: var(--accent-gold-dim); border-color: var(--accent-gold); color: var(--navy); }
+  .discovery-title { font-family: var(--font-serif); font-size: 28px; font-weight: 500; margin-bottom: 16px; }
+  .discovery-desc { font-size: 15px; color: var(--gray-600); line-height: 1.6; margin-bottom: 32px; }
+
+  /* ECOSYSTEM TRANSFORMATION MODULE */
+  .ecosystem-flow { display: flex; flex-direction: column; gap: 16px; max-width: 900px; margin: 48px auto 0; }
+  .ecosystem-row { display: grid; grid-template-columns: 240px 1fr; border: 1px solid var(--gray-100); background: var(--white); }
+  .ecosystem-left {
+    background: var(--navy); color: var(--white); padding: 24px;
+    display: flex; align-items: center; font-family: var(--font-serif); font-size: 18px; font-weight: 500;
+  }
+  .ecosystem-right { padding: 24px 32px; display: flex; align-items: center; font-size: 14px; color: var(--gray-600); }
+
+  /* RESTORED SERVICES MODULE: THREE-COLUMN INFRASTRUCTURE */
+  .services-layout-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .service-matrix-card {
+    background: var(--white); border: 1px solid var(--gray-100); padding: 48px 40px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .service-matrix-title {
+    font-family: var(--font-serif); font-size: 24px; font-weight: 500;
+    padding-bottom: 16px; border-bottom: 1px solid var(--gray-100); margin-bottom: 24px; color: var(--navy);
+  }
+  .service-specs-list { list-style: none; margin-bottom: 40px; }
+  .service-spec-item {
+    font-size: 14px; color: var(--gray-600); margin-bottom: 14px;
+    display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;
+  }
+  .service-spec-item::before { content: '—'; color: var(--accent-gold); font-weight: 700; flex-shrink: 0; }
+
+  /* REDESIGNED REPORT SHOWCASE SHOWCASE MODULE */
+  .report-portfolio-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 64px; align-items: center; }
+  .portfolio-documentation-list { list-style: none; margin-top: 24px; margin-bottom: 32px; }
+  .portfolio-doc-item {
+    font-size: 15px; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; font-weight: 500;
+  }
+  .portfolio-doc-item svg { color: var(--accent-gold); flex-shrink: 0; }
+  
+  /* Physical Editorial Cover/Spread Simulation Mock */
+  .print-dossier-mockup {
+    background: var(--white); border: 1px solid var(--gray-200); padding: 56px;
+    box-shadow: 0 20px 50px rgba(15, 39, 71, 0.05); position: relative;
+  }
+  .print-dossier-mockup::before {
+    content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 6px;
+    background: linear-gradient(to right, rgba(0,0,0,0.08), transparent);
+  }
+  .mockup-seal {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--accent-gold); padding-bottom: 8px; border-bottom: 1px solid var(--gray-100); margin-bottom: 24px;
+  }
+  .mockup-heading { font-family: var(--font-serif); font-size: 32px; font-weight: 500; line-height: 1.2; margin-bottom: 16px; }
+  .mockup-meta-block { font-size: 12px; color: var(--gray-600); border-top: 2px solid var(--navy); padding-top: 16px; margin-top: 40px; }
+  .mockup-meta-line { display: flex; justify-content: space-between; padding: 6px 0; font-family: monospace; }
+
+  /* REAL ISSUES ARRAYS RE-DESIGNED */
+  .insights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .insights-card { background: var(--white); border: 1px solid var(--gray-100); padding: 32px; }
+  .insights-meta-row { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px; letter-spacing: 0.5px;}
+  .insights-type { color: var(--gray-600); }
+  .insights-cost { color: var(--danger); background: var(--danger-dim); padding: 2px 8px; }
+  .insights-cost.cost-neutral { color: var(--success); background: var(--success-dim); }
+  .insights-title { font-family: var(--font-serif); font-size: 20px; font-weight: 500; margin-bottom: 12px; }
+  .insights-desc { font-size: 14px; color: var(--gray-600); line-height: 1.5; }
+
+  /* STRUCTURAL MATRIX GRID COHORTS */
+  .matrix-wrapper { overflow-x: auto; margin-top: 48px; }
+  .matrix-table { width: 100%; border-collapse: collapse; text-align: left; }
+  .matrix-table th { padding: 24px; font-family: var(--font-serif); font-size: 18px; font-weight: 500; border-bottom: 2px solid var(--navy); }
+  .matrix-table th:first-child { font-family: var(--font-sans); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--gray-600); }
+  .matrix-table td { padding: 24px; font-size: 14px; border-bottom: 1px solid var(--gray-100); }
+  .matrix-table tr:hover td { background: var(--off-white); }
+  .matrix-table td:first-child { font-weight: 500; color: var(--navy); }
+  .matrix-col-prime { background: var(--accent-gold-dim); font-weight: 500; }
+  .matrix-table th.matrix-col-prime { background: var(--navy); color: var(--white); }
+
+  /* CORPORATE MISSION NARRATIVE CORE */
+  .founder-story-container { max-width: 800px; margin: 0 auto; background: var(--white); border: 1px solid var(--gray-100); padding: 64px; }
+  .founder-quote { font-family: var(--font-serif); font-size: 24px; line-height: 1.4; color: var(--navy); font-style: italic; margin-bottom: 32px; }
+  .founder-narrative p { font-size: 15px; color: var(--gray-600); line-height: 1.7; margin-bottom: 20px; }
+  .founder-signature { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 32px; color: var(--navy); }
+  .founder-signature span { font-weight: 400; color: var(--gray-600); text-transform: none; font-family: var(--font-serif); font-style: italic; margin-left: 8px;}
+
+  /* HIGH CONVERSION TRIGGER FOOTPRINT STRIP */
+  .download-strip { background: var(--accent-gold-dim); padding: 64px 0; border-bottom: 1px solid var(--gray-100); }
+  .download-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 32px; }
+  .download-title { font-family: var(--font-serif); font-size: 28px; font-weight: 500; color: var(--navy); }
+  .download-sub { font-size: 15px; color: var(--gray-600); margin-top: 4px; }
+
+  /* UNTOUCHED INTERFACES FROM SOURCE SPECIFICATIONS */
+  .faq-max { max-width: 800px; margin: 0 auto; }
+  .faq-node { border-bottom: 1px solid var(--gray-100); padding: 24px 0; }
+  .faq-trigger {
+    width: 100%; background: transparent; border: none; text-align: left;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--font-serif); font-size: 20px; font-weight: 500; color: var(--navy); cursor: pointer;
+  }
+  .faq-icon-state { font-size: 16px; font-family: var(--font-sans); color: var(--accent-gold); transition: transform 0.2s; }
+  .faq-response { max-height: 0; overflow: hidden; transition: max-height 0.25s cubic-bezier(0, 1, 0, 1); }
+  .faq-response p { font-size: 15px; color: var(--gray-600); padding-top: 16px; line-height: 1.6; }
+  .faq-node.open .faq-response { max-height: 1000px; transition: max-height 0.4s ease-in-out; }
+  .faq-node.open .faq-icon-state { transform: rotate(45deg); }
+
+  .cta-block { background: var(--navy); color: var(--white); padding: 120px 0; text-align: center; }
+  .cta-header-large { font-family: var(--font-serif); font-size: 48px; font-weight: 500; letter-spacing: -1px; line-height: 1.2; max-width: 720px; margin: 0 auto 40px; }
+
+  .app-view { display: none; }
+  .app-view.active-view { display: block; }
+
+  /* INTAKE FORM INTERACTION LAYOUT */
+  .booking-flow-card { background: var(--white); border: 1px solid var(--gray-200); max-width: 680px; margin: 40px auto 0; padding: 48px; box-shadow: 0 12px 40px rgba(15, 39, 71, 0.03); }
+  .form-row-split { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .input-block { margin-bottom: 24px; }
+  .input-label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; color: var(--navy); }
+  .input-element { width: 100%; padding: 14px; border: 1px solid var(--gray-200); font-family: var(--font-sans); font-size: 14px; color: var(--navy); background: var(--white); transition: border-color 0.2s; }
+  .input-element:focus { border-color: var(--navy); outline: none; }
+  .tier-selector-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+  .tier-option-card { border: 1px solid var(--gray-200); padding: 24px; cursor: pointer; transition: all 0.2s; position: relative; }
+  .tier-option-card:hover { border-color: var(--accent-gold); }
+  .tier-option-card.selected { border-color: var(--navy); background: var(--off-white); box-shadow: inset 0 0 0 1px var(--navy); }
+  .tier-meta-name { font-family: var(--font-serif); font-size: 18px; font-weight: 600; }
+  .tier-meta-cost { font-size: 16px; font-weight: 700; margin-top: 4px; color: var(--accent-gold); }
+  .success-panel-center { text-align: center; padding: 32px 0; }
+  .success-check-icon { width: 64px; height: 64px; background: var(--success-dim); color: var(--success); display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 24px; border-radius: 50%; }
+
+  footer { background: var(--navy); color: rgba(255, 255, 255, 0.7); padding: 80px 0 40px; font-size: 14px; }
+  .footer-columns { display: grid; grid-template-columns: 2fr repeat(3, 1fr); gap: 48px; margin-bottom: 64px; }
+  .footer-brand-title { font-family: var(--font-serif); font-size: 24px; color: var(--white); margin-bottom: 16px; }
+  .footer-statement { line-height: 1.7; color: rgba(255, 255, 255, 0.5); max-width: 280px; font-size: 13px; }
+  .footer-heading { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--white); margin-bottom: 20px; }
+  .footer-links-list { list-style: none; }
+  .footer-links-list li { margin-bottom: 12px; }
+  .footer-links-list a { color: rgba(255, 255, 255, 0.6); text-decoration: none; transition: color 0.2s; cursor: pointer; }
+  .footer-links-list a:hover { color: var(--white); }
+  .footer-base { border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 32px; display: flex; justify-content: space-between; color: rgba(255, 255, 255, 0.4); font-size: 12px; }
+
+  /* Device Responsive Triggers */
+  @media (max-width: 1024px) {
+    .hero-grid, .cohort-grid, .problem-grid, .discovery-grid, .report-portfolio-grid, .insights-grid, .services-layout-grid { grid-template-columns: 1fr; gap: 40px; }
+    .process-timeline { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+    .process-step::before { display: none; }
+    .footer-columns { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .ecosystem-row { grid-template-columns: 1fr; }
+    .ecosystem-left { padding: 16px 24px; }
+    .intelligence-feed-container { display: none; }
+  }
+  @media (max-width: 768px) {
+    .hero-headline-large { font-size: 44px; }
+    .process-timeline { grid-template-columns: 1fr; }
+    .form-row-split, .tier-selector-grid { grid-template-columns: 1fr; gap: 16px; }
+    .footer-columns { grid-template-columns: 1fr; }
+    .founder-story-container { padding: 32px 24px; }
+    .print-dossier-mockup { padding: 24px; }
+  }
+
+  /* AGE VERIFICATION MODAL */
+  .age-modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 9999;
+    background: rgba(15, 39, 71, 0.55); backdrop-filter: blur(3px);
+    align-items: center; justify-content: center;
+  }
+  .age-modal-overlay.visible { display: flex; }
+  .age-modal-card {
+    background: var(--white); border: 1px solid var(--gray-200);
+    padding: 56px 48px; max-width: 420px; width: 90%; text-align: center;
+    box-shadow: 0 24px 60px rgba(15, 39, 71, 0.12);
+    animation: modalSlideIn 0.2s ease;
+  }
+  @keyframes modalSlideIn {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .age-modal-icon {
+    width: 52px; height: 52px; border: 2px solid var(--accent-gold);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px; font-size: 22px; color: var(--accent-gold);
+  }
+  .age-modal-actions { display: flex; gap: 12px; justify-content: center; margin-top: 32px; }
+  .btn-submitting { opacity: 0.7; pointer-events: none; }
+</style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <a class="brand-logo" onclick="switchView('view-home')">Niv<span>aro</span></a>
+      <ul class="nav-menu">
+        <li><a class="nav-link" onclick="switchView('view-home'); setTimeout(() => document.getElementById('services-section').scrollIntoView(), 100)">Services</a></li>
+        <li><a class="nav-link" onclick="switchView('view-home'); setTimeout(() => document.getElementById('report-section').scrollIntoView(), 100)">Property Health Report™</a></li>
+        <li><a class="nav-link" onclick="switchView('view-home'); setTimeout(() => document.getElementById('matrix-section').scrollIntoView(), 100)">Why Nivaro</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="btn btn-primary" style="padding: 10px 20px; font-size: 13px;" onclick="openBooking()">Get My Property Verified</button>
+      </div>
+    </div>
+  </nav>
+
+  <div id="view-home" class="app-view active-view">
+    
+    <section class="hero-canvas">
+      
+      <div class="intelligence-feed-container" id="hero-feed-root">
+        <div class="feed-column">
+          <div class="feed-card-item active-item" data-index="0">
+            <span class="feed-card-label">Structural Finding</span>
+            <h4 class="feed-card-title">Balcony Drainage Leak</h4>
+            <p class="feed-card-body">Potential Repair Cost: ₹38,000 — Hidden plumbing fracture detected behind exterior tiling.</p>
+          </div>
+          <div class="feed-card-item" data-index="2">
+            <span class="feed-card-label">Electrical Finding</span>
+            <h4 class="feed-card-title">Improper Grounding</h4>
+            <p class="feed-card-body">Potential Repair Cost: ₹12,000 — Faulty grounding discovered in the primary breaker panel.</p>
+          </div>
+          <div class="feed-card-item" data-index="4">
+            <span class="feed-card-label">Ownership Finding</span>
+            <h4 class="feed-card-title">Encumbrance Alert</h4>
+            <p class="feed-card-body">Financial Risk: High — Outstanding liabilities discovered during title review.</p>
+          </div>
+        </div>
+        <div class="feed-column">
+          <div class="feed-card-item active-item" data-index="1">
+            <span class="feed-card-label">Legal Finding</span>
+            <h4 class="feed-card-title">Missing Chain Deeds</h4>
+            <p class="feed-card-body">Risk Level: High — Historical ownership transfer missing from registry records.</p>
+          </div>
+          <div class="feed-card-item" data-index="3">
+            <span class="feed-card-label">Moisture Finding</span>
+            <h4 class="feed-card-title">Bathroom Wall Seepage</h4>
+            <p class="feed-card-body">Potential Repair Cost: ₹24,000 — Moisture readings exceeded acceptable safety thresholds.</p>
+          </div>
+          <div class="feed-card-item" data-index="5">
+            <span class="feed-card-label">Document Finding</span>
+            <h4 class="feed-card-title">Missing Layout Approval</h4>
+            <p class="feed-card-body">Transaction Risk: Severe — Municipal approval records unavailable during verification.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-center-column">
+        <h1 class="hero-headline-large">Before You Sign, Know What You're Buying.</h1>
+        <p class="hero-support-text">Independent property verification that uncovers structural, legal, and financial risks before you commit to one of life's biggest investments.</p>
+        
+        <div class="hero-action-row">
+          <button class="btn btn-primary" onclick="openBooking()">Get Property Verified</button>
+          <button class="btn btn-secondary" onclick="document.getElementById('report-section').scrollIntoView()">View Sample Report</button>
+        </div>
+
+        <div class="hero-badge-array">
+          <div class="badge-item-inline"><span>✓</span> Independent Verification</div>
+          <div class="badge-item-inline"><span>✓</span> Property Health Report™</div>
+          <div class="badge-item-inline"><span>✓</span> Structural & Legal Checks</div>
+          <div class="badge-item-inline"><span>✓</span> Verified Properties</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header center">
+          <span class="section-label">Who We Work With</span>
+          <h2 class="section-heading">Who Uses Nivaro?</h2>
+          <p class="section-subheading">Anyone buying property deserves to know the full picture — not just what the seller wants them to see.</p>
+        </div>
+        <div class="cohort-grid">
+          <div class="cohort-card">
+            <div class="cohort-num">01</div>
+            <h3 class="cohort-title">Home Buyers</h3>
+            <p class="cohort-desc">Know the true condition of a property before you commit to the biggest financial decision of your life. No surprises after you sign.</p>
+          </div>
+          <div class="cohort-card">
+            <div class="cohort-num">02</div>
+            <h3 class="cohort-title">Property Investors</h3>
+            <p class="cohort-desc">Identify hidden repair costs and legal liabilities before they erode your returns. Make investment decisions based on facts, not brochures.</p>
+          </div>
+          <div class="cohort-card">
+            <div class="cohort-num">03</div>
+            <h3 class="cohort-title">NRI Buyers</h3>
+            <p class="cohort-desc">Buying property from abroad means trusting people you can't always verify. Our on-ground team does the due diligence so you don't have to.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Hidden Risks</span>
+          <h2 class="section-heading">What Buyers Usually Don't See</h2>
+          <p class="section-subheading">A fresh coat of paint hides a lot. Most property problems aren't visible during a walkthrough — they show up after you've already paid.</p>
+        </div>
+        <div class="problem-grid">
+          <div class="problem-card">
+            <span class="problem-marker-text">Structural Risk</span>
+            <h3 class="problem-title">Hidden Structural Issues</h3>
+            <p class="problem-desc">Foundation cracks, compromised load-bearing walls, and low-grade construction materials are rarely visible to the naked eye — but they're expensive to fix.</p>
+          </div>
+          <div class="problem-card">
+            <span class="problem-marker-text">Legal Risk</span>
+            <h3 class="problem-title">Title & Ownership Gaps</h3>
+            <p class="problem-desc">Missing chain deeds, unresolved encumbrances, and incomplete municipal approvals can make a property legally difficult or impossible to resell.</p>
+          </div>
+          <div class="problem-card">
+            <span class="problem-marker-text">Moisture Risk</span>
+            <h3 class="problem-title">Water Damage & Seepage</h3>
+            <p class="problem-desc">Leaking pipes and failed waterproofing hide behind tiles and plaster. Left unchecked, they cause mold, structural decay, and repair bills that can run into lakhs.</p>
+          </div>
+          <div class="problem-card">
+            <span class="problem-marker-text">Financial Risk</span>
+            <h3 class="problem-title">Unexpected Repair Costs</h3>
+            <p class="problem-desc">Faulty wiring, corroded plumbing, and failing systems often surface within the first few months of possession — when you're already committed and out of options.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">The Process</span>
+          <h2 class="section-heading">How Nivaro Works</h2>
+          <p class="section-subheading">Four clear steps. No jargon. Just an honest assessment of the property you're considering.</p>
+        </div>
+        <div class="process-timeline">
+          <div class="process-step">
+            <div class="process-node">1</div>
+            <h3 class="process-title">Share the Property</h3>
+            <p class="process-desc">Give us any property address, listing link, or basic details. That's all we need to get started.</p>
+          </div>
+          <div class="process-step">
+            <div class="process-node">2</div>
+            <h3 class="process-title">We Inspect It</h3>
+            <p class="process-desc">Our structural engineers and legal team conduct a thorough on-site audit covering every major risk category.</p>
+          </div>
+          <div class="process-step">
+            <div class="process-node">3</div>
+            <h3 class="process-title">You Get the Report</h3>
+            <p class="process-desc">Receive a clear, detailed Property Health Report™ with every finding explained in plain language.</p>
+          </div>
+          <div class="process-step">
+            <div class="process-node">4</div>
+            <h3 class="process-title">Decide with Confidence</h3>
+            <p class="process-desc">Buy knowing the full picture. Walk away if the risks aren't worth it. Or negotiate a better price with evidence in hand.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header center">
+          <span class="section-label">What We Check</span>
+          <h2 class="section-heading">One Property. Every Angle Covered.</h2>
+          <p class="section-subheading">A single verification process that covers the structural, legal, and financial aspects of any property — so nothing falls through the cracks.</p>
+        </div>
+        
+        <div class="ecosystem-flow">
+          <div class="ecosystem-row">
+            <div class="ecosystem-left">1. Structural Verification</div>
+            <div class="ecosystem-right">Our engineers inspect the property in person — checking the foundation, walls, plumbing, electrical systems, and waterproofing using specialist tools.</div>
+          </div>
+          <div class="ecosystem-row">
+            <div class="ecosystem-left">2. Legal Verification</div>
+            <div class="ecosystem-right">We trace the property's ownership history across 30 years of records, checking for title gaps, encumbrances, missing approvals, and RERA compliance.</div>
+          </div>
+          <div class="ecosystem-row">
+            <div class="ecosystem-left">3. Property Health Report™</div>
+            <div class="ecosystem-right">Every finding is compiled into a clear, readable report that tells you exactly what's at risk and what it might cost — with our recommendation on whether to proceed.</div>
+          </div>
+          <div class="ecosystem-row">
+            <div class="ecosystem-left">4. Home Loan Assistance</div>
+            <div class="ecosystem-right">Our verified documentation package helps partner banks process loan applications faster, removing the usual back-and-forth delays.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-alt" id="services-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">What We Offer</span>
+          <h2 class="section-heading">Our Services</h2>
+          <p class="section-subheading">Three independent verification services you can book individually or together. Each one is designed to give you clarity before you commit.</p>
+        </div>
+        
+        <div class="services-layout-grid">
+          <div class="service-matrix-card">
+            <div>
+              <h3 class="service-matrix-title">Structural Verification™</h3>
+              <ul class="service-specs-list">
+                <li class="service-spec-item">Physical frame structural alignment scan</li>
+                <li class="service-spec-item">Waterproofing stability & wall moisture tracking</li>
+                <li class="service-spec-item">Electrical distribution panel thermal assessment</li>
+                <li class="service-spec-item">Plumbing flow line backpressure diagnostics</li>
+                <li class="service-spec-item">Occupancy condition evaluation</li>
+              </ul>
+            </div>
+            <button class="btn btn-secondary btn-full" onclick="openBooking()">Book Structural Scope</button>
+          </div>
+          
+          <div class="service-matrix-card">
+            <div>
+              <h3 class="service-matrix-title">Legal Verification™</h3>
+              <ul class="service-specs-list">
+                <li class="service-spec-item">30-year local title deed trace validation</li>
+                <li class="service-spec-item">Encumbrance balance certificate mapping</li>
+                <li class="service-spec-item">Municipal registry sanction clearance checks</li>
+                <li class="service-spec-item">Missing documentation risk identification</li>
+                <li class="service-spec-item">Pre-possession regulatory advisory metrics</li>
+              </ul>
+            </div>
+            <button class="btn btn-secondary btn-full" onclick="openBooking()">Book Legal Scope</button>
+          </div>
+          
+          <div class="service-matrix-card">
+            <div>
+              <h3 class="service-matrix-title">Home Loan & Purchase Assistance™</h3>
+              <ul class="service-specs-list">
+                <li class="service-spec-item">Bank validation file synthesis</li>
+                <li class="service-spec-item">Independent valuation matching metrics</li>
+                <li class="service-spec-item">Pre-approved institutional document routing</li>
+                <li class="service-spec-item">Purchase agreement technical validation</li>
+                <li class="service-spec-item">Post-audit builder negotiation guidance</li>
+              </ul>
+            </div>
+            <button class="btn btn-secondary btn-full" onclick="openBooking()">Book Purchase Scope</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="report-section">
+      <div class="container">
+        <div class="report-portfolio-grid">
+          <div>
+            <span class="section-label">The Core Asset</span>
+            <h2 class="section-heading">The Property Health Report™</h2>
+            <p class="section-subheading" style="margin-top: 16px; color: var(--gray-600);">A detailed, easy-to-read report that tells you the real condition of the property you're about to buy — what's wrong, what it'll cost, and whether you should proceed.</p>
+            
+            <ul class="portfolio-documentation-list">
+              <li class="portfolio-doc-item">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Structural ratings across all major physical components
+              </li>
+              <li class="portfolio-doc-item">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Title history verified across 30 years of ownership records
+              </li>
+              <li class="portfolio-doc-item">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Estimated repair costs you can use to negotiate a fair price
+              </li>
+            </ul>
+
+            <button class="btn btn-secondary" style="cursor: default; opacity: 0.6;" disabled>Sample Report — Coming Soon</button>
+          </div>
+          
+          <div>
+            <div class="print-dossier-mockup" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 320px; background: var(--off-white);">
+              <div style="width: 56px; height: 56px; border: 2px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+                <svg width="24" height="24" fill="none" stroke="var(--accent-gold)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              </div>
+              <div class="mockup-seal" style="border-bottom: none; margin-bottom: 12px;">Property Health Report™</div>
+              <h3 class="mockup-heading" style="font-size: 26px; margin-bottom: 12px;">Coming Soon</h3>
+              <p style="font-size: 14px; color: var(--gray-600); line-height: 1.6; max-width: 280px; margin: 0 auto;">Our sample report library is being finalised. Check back soon to see a full Property Health Report™ in action.</p>
+              <div class="mockup-meta-block" style="width: 100%; margin-top: 32px;">
+                <div class="mockup-meta-line"><span>RECORD IDENTIFIER:</span> <span style="color: var(--gray-200);">— — —</span></div>
+                <div class="mockup-meta-line"><span>VALIDATION MATRIX:</span> <span style="color: var(--gray-200);">— — —</span></div>
+                <div class="mockup-meta-line"><span>FIELD ASSIGNED:</span> <span style="color: var(--gray-200);">— — —</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-alt" id="matrix-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Why Nivaro</span>
+          <h2 class="section-heading">Independent Verification vs. Standard Listings</h2>
+          <p class="section-subheading">Property portals are built to help sellers sell faster. Nivaro is built to help buyers understand what they're actually buying.</p>
+        </div>
+        
+        <div class="matrix-wrapper">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th>What's Checked</th>
+                <th class="matrix-col-prime">Nivaro Verification</th>
+                <th>Standard Property Portals</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Structural Inspection</strong></td>
+                <td class="matrix-col-prime">In-person engineering inspection covering foundation, walls, plumbing, and electrical systems.</td>
+                <td>Agent-provided descriptions and marketing photographs.</td>
+              </tr>
+              <tr>
+                <td><strong>Legal Verification</strong></td>
+                <td class="matrix-col-prime">Independent 30-year title trace with encumbrance checks and municipal approval review.</td>
+                <td>Self-declared seller documents with no independent verification.</td>
+              </tr>
+              <tr>
+                <td><strong>Risk Assessment</strong></td>
+                <td class="matrix-col-prime">Every risk clearly documented with estimated costs and a purchase recommendation.</td>
+                <td>No risk assessment — the goal is to close the deal, not protect the buyer.</td>
+              </tr>
+              <tr>
+                <td><strong>Property Health Report™</strong></td>
+                <td class="matrix-col-prime">A single, readable report covering every structural, legal, and financial risk found.</td>
+                <td>Generic listing descriptions written to attract buyers, not inform them.</td>
+              </tr>
+              <tr>
+                <td><strong>Our Incentive</strong></td>
+                <td class="matrix-col-prime">We earn nothing from sellers. Our only job is to give buyers an honest picture.</td>
+                <td>Agent commissions depend on the deal closing — not on buyer protection.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="story-section">
+      <div class="container">
+        <div class="section-header center">
+          <span class="section-label">Founders Statement</span>
+          <h2 class="section-heading">Why We Built Nivaro</h2>
+        </div>
+        
+        <div class="founder-story-container">
+          <blockquote class="founder-quote">
+            "Many property buyers make decisions involving lakhs or crores based on brochures, listing descriptions, broker claims, and surface-level inspections."
+          </blockquote>
+          <div class="founder-narrative">
+            <p>Every day, buyers sign agreements worth lakhs or crores after a brief walkthrough and a conversation with an agent whose job is to close the deal — not to protect the buyer.</p>
+            <p>We built Nivaro because we believe buyers deserve the same quality of due diligence that large investors get. Not a surface-level visual inspection, but a real examination of the physical, legal, and financial condition of the property.</p>
+            <p>Nivaro takes no commissions from developers or sellers. We never will. That independence means our engineers, legal analysts, and field surveyors have one responsibility — to give you an honest picture of what you're buying.</p>
+            <div class="founder-signature">The Nivaro Founding Team<span>· Independent Property Verification</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-block">
+      <div class="container">
+        <h2 class="cta-header-large">Before You Sign, Know What You're Buying.</h2>
+        <button class="btn btn-gold" style="padding: 18px 48px; font-size: 15px;" onclick="openBooking()">Get My Property Verified</button>
+      </div>
+    </section>
+
+  </div>
+
+  <div id="view-booking" class="app-view">
+    <section class="section" style="background: var(--off-white); min-height: calc(100vh - 80px);">
+      <div class="container">
+        <div style="max-width: 680px; margin: 0 auto;">
+          <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; margin-bottom: 24px;" onclick="switchView('view-home')">← Return to Website Home</button>
+          <h1 style="font-family: var(--font-serif); font-size: 38px; font-weight: 500; line-height: 1.2;">Get My Property Verified</h1>
+          <p style="color: var(--gray-600); margin-top: 8px; font-size: 15px;">Share a few details about the property and we'll get back to you to schedule an independent inspection.</p>
+        </div>
+
+        <div class="booking-flow-card">
+          <div id="step-form-inputs">
+            <div class="input-block">
+              <label class="input-label">Property Address or Listing Reference Link</label>
+              <input type="text" class="input-element" placeholder="e.g., Flat 402, Block G, Bandra West, Mumbai" id="input-addr">
+            </div>
+            
+            <div class="form-row-split">
+              <div class="input-block">
+                <label class="input-label">Property Type</label>
+                <select class="input-element">
+                  <option>Residential Apartment Unit</option>
+                  <option>Independent House / Villa</option>
+                  <option>Plot / Vacant Land Layout</option>
+                  <option>Commercial Property Space</option>
+                </select>
+              </div>
+              <div class="input-block">
+                <label class="input-label">Purchase Timeline</label>
+                <select class="input-element">
+                  <option>Immediate Deal (&lt; 14 Days)</option>
+                  <option>Active Diligence Phase</option>
+                  <option>Preliminary Evaluation Scope</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row-split">
+              <div class="input-block">
+                <label class="input-label">Phone Number</label>
+                <input type="tel" class="input-element" placeholder="+91 98765 43210" id="input-phone">
+              </div>
+              <div class="input-block">
+                <label class="input-label">Email Address</label>
+                <input type="email" class="input-element" placeholder="buyer@domain.com" id="input-email">
+              </div>
+            </div>
+
+            <div class="input-block">
+              <label class="input-label">Select Verification Package</label>
+              <div class="tier-selector-grid">
+                <div class="tier-option-card" onclick="selectTier(this)">
+                  <div class="tier-meta-name">Legal Audit Only</div>
+                  <div class="tier-meta-cost">₹4,999</div>
+                  <p style="font-size: 12px; color: var(--gray-600); margin-top: 8px; line-height: 1.4;">30-year property title chain search, local municipal registry scans, and encumbrance tracking verification checks.</p>
+                </div>
+                <div class="tier-option-card selected" onclick="selectTier(this)">
+                  <div class="tier-meta-name">Full Verification Suite™</div>
+                  <div class="tier-meta-cost">₹11,999</div>
+                  <p style="font-size: 12px; color: var(--gray-600); margin-top: 8px; line-height: 1.4;">Combines full historical legal title validation with on-site structural engineering inspections and dampness moisture scans.</p>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--gray-100); display: flex; justify-content: flex-end;">
+              <button class="btn btn-primary" style="padding: 16px 48px;" onclick="executeBookingSubmit()">Get My Property Verified</button>
+            </div>
+          </div>
+
+          <div id="step-form-success" class="success-panel-center" style="display: none;">
+            <div class="success-check-icon">✓</div>
+            <h2 style="font-family: var(--font-serif); font-size: 28px; font-weight: 500; margin-bottom: 8px;">Request Process Onboarded</h2>
+            <p style="font-size: 14px; color: var(--gray-600); max-width: 460px; margin: 0 auto 24px; line-height: 1.6;">Your request has been received. Reference: <strong id="booking-ref" style="color: var(--navy); font-family: monospace;">NVR-2026-8841</strong>. A member of our team will reach out shortly to schedule your property inspection.</p>
+            <button class="btn btn-secondary" onclick="switchView('view-home')">Return to Platform Home</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================================================
+       AGE VERIFICATION MODAL
+       Appears before the booking form is shown.
+  ================================================ -->
+  <div class="age-modal-overlay" id="age-modal">
+    <div class="age-modal-card">
+      <div class="age-modal-icon">18+</div>
+      <span class="section-label" style="display:block; margin-bottom:10px;">Age Confirmation</span>
+      <h3 style="font-family:var(--font-serif); font-size:24px; font-weight:500; color:var(--navy); margin-bottom:12px;">Are you 18 or older?</h3>
+      <p style="font-size:14px; color:var(--gray-600); line-height:1.6;">Our property verification services are available to adults only. Please confirm your age to continue.</p>
+      <div class="age-modal-actions">
+        <button class="btn btn-primary" style="padding:12px 28px;" onclick="confirmAge(true)">Yes, I'm 18+</button>
+        <button class="btn btn-secondary" style="padding:12px 28px;" onclick="confirmAge(false)">No, go back</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-columns">
+        <div>
+          <div class="footer-brand-title">Nivaro</div>
+          <p class="footer-statement">Independent property verification for buyers who want to know the truth before they sign. We take no commissions from sellers or developers — ever.</p>
+        </div>
+        <div>
+          <div class="footer-heading">Services Portfolio</div>
+          <ul class="footer-links-list">
+            <li><a onclick="switchView('view-home'); window.scrollTo(0,0);">Structural Inspection</a></li>
+            <li><a onclick="switchView('view-home'); window.scrollTo(0,0);">Legal Title Analysis</a></li>
+            <li><a onclick="switchView('view-home'); window.scrollTo(0,0);">Property Health Report™</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-heading">Technical System</div>
+          <ul class="footer-links-list">
+            <li><a href="#">Audit Protocols</a></li>
+            <li><a href="#">Risk Standards</a></li>
+            <li><a href="#">Sample Library</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-heading">Institutional</div>
+          <ul class="footer-links-list">
+            <li><a href="#">Privacy Framework</a></li>
+            <li><a href="#">Operational Compliance</a></li>
+            <li><a href="#">Contact Office</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-base">
+        <div>© 2026 Nivaro Property Intelligence Platforms Pvt. Ltd. All asset metrics, technical diagnostic sequences, and legal tracking workflows are strictly independent.</div>
+        <div style="display: flex; gap: 24px; flex-shrink: 0;">
+          <span>ISO 27001 Certified System</span>
+          <span>Independent Buyer Advocacy</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Platform View Component Switch Engine
+    function switchView(targetViewId) {
+      document.querySelectorAll('.app-view').forEach(viewPane => {
+        viewPane.classList.remove('active-view');
+      });
+      document.getElementById(targetViewId).classList.add('active-view');
+      window.scrollTo(0, 0);
+      
+      if (targetViewId === 'view-booking') {
+        document.getElementById('step-form-inputs').style.display = 'block';
+        document.getElementById('step-form-success').style.display = 'none';
+      }
+    }
+
+    // Age Verification Modal — opens before the booking form
+    function openBooking() {
+      document.getElementById('age-modal').classList.add('visible');
+    }
+
+    function confirmAge(isOver18) {
+      document.getElementById('age-modal').classList.remove('visible');
+      if (isOver18) {
+        switchView('view-booking');
+      }
+    }
+
+    // Close modal if user clicks the overlay background
+    document.getElementById('age-modal').addEventListener('click', function(e) {
+      if (e.target === this) confirmAge(false);
+    });
+
+    // Intake Registry Package Form Intermediary Selector
+    function selectTier(selectedCardElement) {
+      document.querySelectorAll('.tier-option-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      selectedCardElement.classList.add('selected');
+    }
+
+    async function executeBookingSubmit() {
+      const address  = document.getElementById('input-addr').value.trim();
+      const phone    = document.getElementById('input-phone').value.trim();
+      const email    = document.getElementById('input-email').value.trim();
+      const selected = document.querySelector('.tier-option-card.selected');
+      const pkg      = selected ? selected.querySelector('.tier-meta-name').textContent : 'Not selected';
+
+      if (!address) {
+        alert("Please enter a valid property address or listing link.");
+        return;
+      }
+
+      const submitBtn = document.querySelector('#step-form-inputs .btn-primary');
+      submitBtn.textContent = 'Submitting…';
+      submitBtn.disabled = true;
+
+      const refNo = 'NVR-' + new Date().getFullYear() + '-' + Math.floor(1000 + Math.random() * 9000);
+
+      try {
+        const res = await fetch('https://formspree.io/f/xbdvyznr', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            reference_number:   refNo,
+            property_address:   address,
+            phone_number:       phone || '—',
+            email_address:      email || '—',
+            package_selected:   pkg
+          })
+        });
+
+        if (!res.ok) throw new Error('Formspree error');
+
+        document.getElementById('booking-ref').textContent = refNo;
+        document.getElementById('step-form-inputs').style.display = 'none';
+        document.getElementById('step-form-success').style.display = 'block';
+
+      } catch (err) {
+        alert('Something went wrong — please try again or email us directly.');
+        submitBtn.textContent = 'Get My Property Verified';
+        submitBtn.disabled = false;
+      }
+    }
+
+    // FAQ System Accordion Control Node Loop
+    function toggleFaq(triggerElement) {
+      const parentNode = triggerElement.parentElement;
+      const isOpenState = parentNode.classList.contains('open');
+      document.querySelectorAll('.faq-node').forEach(faqItem => {
+        faqItem.classList.remove('open');
+      });
+      if (!isOpenState) {
+        parentNode.classList.add('open');
+      }
+    }
+
+    // AUTOMATED BACKGROUND INTELLIGENCE FEED CONTROLLER
+    (function() {
+      const rootFeedContainer = document.getElementById('hero-feed-root');
+      // Cards: left column indices 0,2,4 — right column indices 1,3,5
+      const leftCards = [0, 2, 4];
+      const rightCards = [1, 3, 5];
+      const allCards = Array.from(rootFeedContainer.getElementsByClassName('feed-card-item'));
+      let leftPointer = 0;
+      let rightPointer = 0;
+      let userHoverStateActive = false;
+
+      function showCard(colCards, pointer) {
+        const idx = colCards[pointer];
+        if (allCards[idx]) allCards[idx].classList.add('active-item');
+      }
+      function hideCard(colCards, pointer) {
+        const idx = colCards[pointer];
+        if (allCards[idx]) allCards[idx].classList.remove('active-item');
+      }
+
+      // Initial state
+      showCard(leftCards, leftPointer);
+      showCard(rightCards, rightPointer);
+
+      function cycleLeft() {
+        if (userHoverStateActive) return;
+        hideCard(leftCards, leftPointer);
+        leftPointer = (leftPointer + 1) % leftCards.length;
+        showCard(leftCards, leftPointer);
+      }
+      function cycleRight() {
+        if (userHoverStateActive) return;
+        hideCard(rightCards, rightPointer);
+        rightPointer = (rightPointer + 1) % rightCards.length;
+        showCard(rightCards, rightPointer);
+      }
+
+      // Stagger left and right cycles for variety
+      setInterval(cycleLeft, 4500);
+      setTimeout(() => setInterval(cycleRight, 4500), 2200);
+
+      rootFeedContainer.addEventListener('mouseenter', () => { userHoverStateActive = true; });
+      rootFeedContainer.addEventListener('mouseleave', () => { userHoverStateActive = false; });
+    })();
+  </script>
+</body>
+</html>
